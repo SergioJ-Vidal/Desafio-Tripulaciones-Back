@@ -5,16 +5,32 @@ const { jwt_secret } = require('../config/config.json')['development']
 
 const UserController = {
 
-  create(req, res) {
+  async create(req, res, next) {
 
-    req.body.role = "user";
+    try {
 
-    const password = bcrypt.hashSync(req.body.password, 10)
+      const hash = bcrypt.hashSync(req.body.password, 10);
+      const user = await User.create({ ...req.body, password: hash, confirmed: false, rol: "user" })
 
-    User.create({ ...req.body, password: password, role: "user", confirmed: false })
-      .then(user => res.status(201).send({ message: 'Usuario creado con éxito', user }))
-      .catch(err => console.error(err))
+      const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'48h'})
+      const url = 'http://localhost:8080/users/confirm/' + emailToken
+
+      await transporter.sendMail({
+        to: req.body.email,
+        subject: "Confirme su registro",
+        html: `<h3>Bienvenido, estás a un paso de registrarte </h3>
+        <a href="${url}"> Click para confirmar tu registro</a>
+        `,
+      });
+
+      res.status(201).send({ message: 'Usuario creado con éxito', user });
+
+    } catch (err) {
+      err
+      next(err)
+    }
   },
+
 
   login(req, res) {
 
@@ -37,6 +53,22 @@ const UserController = {
     })
   },
 
+  async confirm(req, res) {
+    try {
+      const token = req.params.emailToken
+      const payload = jwt.verify(token,jwt_secret)
+      await User.update({ confirmed: true }, {
+        where: {
+          email: payload.email
+        }
+      })
+      res.status(201).send("Usuario confirmado con éxito");
+    } catch (error) {
+      console.error(error)
+    }
+  },
+
+
   async logout(req, res) {
     try {
       await Token.destroy({
@@ -50,7 +82,7 @@ const UserController = {
       res.send({ message: 'Desconectado con éxito' })
     } catch (error) {
       console.log(error)
-      res.status(500).send({ message: 'hubo un problema al tratar de desconectarte' })
+      res.status(500).send({ message: 'Hubo un problema al tratar de desconectarte' })
     }
   },
 
