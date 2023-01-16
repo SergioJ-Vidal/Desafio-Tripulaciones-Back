@@ -19,7 +19,7 @@ const UserController = {
         res
           .status(500)
           .send({
-            message: "Ha habido un problema al cargar los usuarios",
+            message: "Ha habido un problema al cargar los usuarios 1",
           });
       });
   },
