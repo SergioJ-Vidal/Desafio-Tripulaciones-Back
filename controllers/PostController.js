@@ -8,6 +8,7 @@ const PostController = {
       )
       .catch(console.error);
   },
+
   getAll(req, res) {
     Post.findAll({
       include: [User],
@@ -21,6 +22,18 @@ const PostController = {
             message: "Ha habido un problema al cargar las publicaciones",
           });
       });
+  },
+  async getPostById(req, res) {
+    try {
+      const post = await Post.findByPk(req.params.id);
+      res.send(post);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        msg: "Ha habido un problema al traernos post por Id",
+        error,
+      });
+    }
   },
 };
 module.exports = PostController;
