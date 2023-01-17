@@ -94,13 +94,56 @@ const UserController = {
 
       .then((users) => res.status(201).send({ message: "Usuarios obtenidos:", users }))
       .catch((err) => {
-        console.log(err); res.status(500)
-          .send({
-            message: "Ha habido un problema al cargar los usuarios 1",
-          });
+        console.log(err);
+        res.status(500).send({
+          message: "Ha habido un problema al cargar los usuarios",
+        });
       });
   },
-
+  async getUserById(req, res) {
+    try {
+      const user = await User.findByPk(req.params.id, {
+        include: [Post],
+      });
+      res.send(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        msg: "Ha habido un problema al traernos user por Id",
+        error,
+      });
+    }
+  },
+  async getUserByName(req, res) {
+    try {
+      const user = await User.findAll({
+        $text: {
+          $search: req.params.name,
+        },
+      });
+      res.send(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        msg: "Ha habido un problema al traernos user su nombree",
+        error,
+      });
+    }
+  },
+  async deleteUserById(req, res) {
+    await User.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    await Post.destroy({
+      where: {
+        UserId: req.params.id,
+      },
+    });
+    res.send("El usuario fue eliminado con exito");
+  },
+  
 };
 
 module.exports = UserController;

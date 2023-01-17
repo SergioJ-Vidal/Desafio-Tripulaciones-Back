@@ -1,4 +1,6 @@
-const { Post, User } = require("../models/index.js");
+const { Post, User, Sequelize } = require("../models/index.js");
+const { Op } = Sequelize;
+const { post } = require("../routes/posts.js");
 
 const PostController = {
 

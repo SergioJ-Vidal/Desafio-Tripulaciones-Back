@@ -8,5 +8,9 @@ router.get('/getUsers',UserController.getUsers)
 router.post('/login',UserController.login)
 router.get('/confirm/:emailToken',UserController.confirm)
 router.delete('/logout',authentication,UserController.logout)
+router.get('/getUserById/:id',UserController.getUserById)
+router.get('/getUserByName/:name',UserController.getUserByName)
+router.delete('/deleteUserById/:id',UserController.deleteUserById)
 
-module.exports = router;
+
+module.exports = router; 
