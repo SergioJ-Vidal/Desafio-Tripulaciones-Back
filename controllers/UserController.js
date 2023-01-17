@@ -125,11 +125,7 @@ const UserController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({
-<<<<<<< HEAD
         msg: "Ha habido un problema al traer los usuarios por su nombre",
-=======
-        msg: "Ha habido un problema al traernos user su nombree",
->>>>>>> develop
         error,
       });
     }
