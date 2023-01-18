@@ -8,6 +8,8 @@ const UserController = {
 
   async create(req, res, next) {
 
+    if (req.file) req.body.image = req.file.filename
+
     try {
 
       const hash = bcrypt.hashSync(req.body.password, 10);
