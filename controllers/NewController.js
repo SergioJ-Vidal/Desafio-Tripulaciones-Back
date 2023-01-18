@@ -1,4 +1,4 @@
-const { New } = require('../models/index');
+const { New, Category } = require('../models/index');
 
 const NewController = {
 
@@ -16,6 +16,26 @@ const NewController = {
 
             err
             next(err)
+
+        }
+
+    },
+
+    async getAll(req, res) {
+
+        try {
+
+            const news = await New.findAll({
+
+                include: { model: Category },
+
+            });
+
+            res.send(news);
+
+        } catch (error) {
+
+            console.error(error);
 
         }
 
