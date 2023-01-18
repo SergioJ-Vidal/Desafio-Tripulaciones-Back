@@ -1,4 +1,5 @@
 const { User, Post, Token } = require("../models/index.js");
+const { Op } = require("sequelize")
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development']
@@ -10,18 +11,7 @@ const UserController = {
     try {
 
       const hash = bcrypt.hashSync(req.body.password, 10);
-      const user = await User.create({ ...req.body, password: hash, confirmed: false, rol: "user" })
-
-      const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'48h'})
-      const url = 'http://localhost:8080/users/confirm/' + emailToken
-
-      await transporter.sendMail({
-        to: req.body.email,
-        subject: "Confirme su registro",
-        html: `<h3>Bienvenido, estás a un paso de registrarte </h3>
-        <a href="${url}"> Click para confirmar tu registro</a>
-        `,
-      });
+      const user = await User.create({ ...req.body, password: hash, role: "user" })
 
       res.status(201).send({ message: 'Usuario creado con éxito', user });
 
@@ -52,22 +42,6 @@ const UserController = {
       res.send({ message: 'Bienvenid@ ' + user.name, user, token });
     })
   },
-
-  async confirm(req, res) {
-    try {
-      const token = req.params.emailToken
-      const payload = jwt.verify(token,jwt_secret)
-      await User.update({ confirmed: true }, {
-        where: {
-          email: payload.email
-        }
-      })
-      res.status(201).send("Usuario confirmado con éxito");
-    } catch (error) {
-      console.error(error)
-    }
-  },
-
 
   async logout(req, res) {
     try {
