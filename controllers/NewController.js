@@ -1,4 +1,5 @@
-const { New, Category } = require('../models/index');
+const { New, Category, Sequelize } = require('../models/index');
+const { Op } = Sequelize;
 
 const NewController = {
 
@@ -8,14 +9,22 @@ const NewController = {
 
         try {
 
+            // const formData = new FormData();
+            // if (image.files[0]) formData.set('image', image.files[0]);
+            // formData.set('title', req.body.title)
+            // formData.set('body', req.body.body)
+            // formData.set('category', req.body.category)
+
             const newN = await New.create({ ...req.body, UserId: req.user.id, CategoryId: req.body.category })
+
+            // const newN = await New.create({ formData, UserId: req.user.id})
 
             res.status(201).send({ message: 'Noticia creada con éxito', newN });
 
         } catch (err) {
 
             err
-            next(err)
+
 
         }
 
@@ -27,7 +36,7 @@ const NewController = {
 
             const news = await New.findAll({
 
-                include: { model: Category },
+                include: Category,
 
             });
 

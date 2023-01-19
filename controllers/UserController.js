@@ -76,20 +76,28 @@ const UserController = {
         });
       });
   },
+
   async getUserById(req, res) {
     try {
+
       const user = await User.findByPk(req.params.id, {
-        include: [Post],
+        // include: [Post]
+
       });
+
       res.send(user);
+
     } catch (error) {
+
       console.error(error);
       res.status(500).send({
         msg: "Ha habido un problema al traernos user por Id",
-        error,
+        error
+
       });
     }
   },
+
   async getUserByName(req, res) {
     try {
       const user = await User.findAll({
@@ -119,7 +127,7 @@ const UserController = {
     });
     res.send("El usuario fue eliminado con exito");
   },
-  
+
 };
 
 module.exports = UserController;
