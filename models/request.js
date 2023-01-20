@@ -2,16 +2,18 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Token extends Model {
+  class Request extends Model {
     static associate(models) {
+      Request.belongsTo(models.User)
     }
   }
-  Token.init({
-    token: DataTypes.STRING,
+  Request.init({
+    title: DataTypes.STRING,
+    body: DataTypes.STRING,
     UserId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Token',
+    modelName: 'Request',
   });
-  return Token;
+  return Request;
 };
