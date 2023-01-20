@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
   Request.init({
     title: DataTypes.STRING,
     body: DataTypes.STRING,
+    image: DataTypes.STRING,
+    adress: DataTypes.STRING,
     UserId: DataTypes.INTEGER
   }, {
     sequelize,
