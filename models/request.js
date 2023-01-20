@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   request.init({
     title: DataTypes.STRING,
-    body: DataTypes.STRING
+    body: DataTypes.STRING,
+    // UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'request',
