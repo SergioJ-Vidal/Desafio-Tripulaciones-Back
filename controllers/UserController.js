@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development']
 
 const UserController = {
+  
   async create(req, res, next) {
     if (req.file) req.body.image = req.file.filename
     try {
