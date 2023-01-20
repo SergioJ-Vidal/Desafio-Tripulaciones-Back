@@ -5,18 +5,12 @@ const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development']
 
 const UserController = {
-
   async create(req, res, next) {
-
     if (req.file) req.body.image = req.file.filename
-
     try {
-
       const hash = bcrypt.hashSync(req.body.password, 10);
       const user = await User.create({ ...req.body, password: hash, role: "user" })
-
       res.status(201).send({ message: 'Usuario creado con éxito', user });
-
     } catch (err) {
       err
       next(err)
@@ -119,7 +113,7 @@ const UserController = {
     });
     res.send("El usuario fue eliminado con exito");
   },
-  
+
 };
 
 module.exports = UserController;
