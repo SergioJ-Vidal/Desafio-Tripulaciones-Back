@@ -8,6 +8,7 @@ const authentication = async (req, res, next) => {
     try {
         const token = req.headers.authorization;
         const payload = jwt.verify(token, jwt_secret);
+        console.log(payload)
         const user = await User.findByPk(payload.id);
         const tokenFound = await Token.findOne({
             where: {
