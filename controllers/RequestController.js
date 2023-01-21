@@ -8,14 +8,11 @@ const RequestController = {
             const newN = await Request.create({ ...req.body, UserId: req.user.id })
             res.status(201).send({ message: 'Petición creada con éxito', newN });
             
-        } catch (err) {
-            err
-            next(err)
+        } catch (error) {
+            console.error(error)
+            res.status(500).send({ message: 'Ha habido un problema al crear la petición' })
         }
     },
 }
-
-if (req.file) req.body.image = req.file.filename
-
 
 module.exports = RequestController

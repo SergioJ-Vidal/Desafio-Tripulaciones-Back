@@ -4,9 +4,10 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Category extends Model {
     static associate(models) {
-      Category.belongsToMany(models.New, {
-        through: models.CategoryNew,
-      })
+      Category.belongsTo(models.Request,{
+        through:models.RequestCategory,
+      }
+)
     }
   }
   Category.init({
