@@ -5,18 +5,13 @@ const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development']
 
 const UserController = {
-
+  
   async create(req, res, next) {
-
     if (req.file) req.body.image = req.file.filename
-
     try {
-
       const hash = bcrypt.hashSync(req.body.password, 10);
       const user = await User.create({ ...req.body, password: hash, role: "user" })
-
       res.status(201).send({ message: 'Usuario creado con éxito', user });
-
     } catch (err) {
       err
       next(err)
@@ -76,20 +71,28 @@ const UserController = {
         });
       });
   },
+
   async getUserById(req, res) {
     try {
+
       const user = await User.findByPk(req.params.id, {
-        include: [Post],
+        // include: [Post]
+
       });
+
       res.send(user);
+
     } catch (error) {
+
       console.error(error);
       res.status(500).send({
         msg: "Ha habido un problema al traernos user por Id",
-        error,
+        error
+
       });
     }
   },
+
   async getUserByName(req, res) {
     try {
       const user = await User.findAll({
@@ -101,7 +104,7 @@ const UserController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({
-        msg: "Ha habido un problema al traernos user su nombree",
+        msg: "Ha habido un problema al traer los usuarios por su nombre",
         error,
       });
     }
@@ -119,7 +122,7 @@ const UserController = {
     });
     res.send("El usuario fue eliminado con exito");
   },
-  
+
 };
 
 module.exports = UserController;

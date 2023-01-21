@@ -2,19 +2,20 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class New extends Model {
+  class Request extends Model {
     static associate(models) {
-     
+      Request.belongsTo(models.User)
     }
   }
-  New.init({
+  Request.init({
     title: DataTypes.STRING,
     body: DataTypes.STRING,
     image: DataTypes.STRING,
-    UserId: DataTypes.INTEGER,
+    adress: DataTypes.STRING,
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'New',
+    modelName: 'Request',
   });
-  return New;
+  return Request;
 };

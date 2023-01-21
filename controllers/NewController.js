@@ -1,7 +1,7 @@
-const { New, Category } = require('../models/index');
+const { New, Category, Sequelize } = require('../models/index');
+const { Op } = Sequelize;
 
 const NewController = {
-
     async create(req, res) {
 
         if (req.file) req.body.image = req.file.filename
@@ -11,9 +11,7 @@ const NewController = {
             const newN = await New.create({ ...req.body, UserId: req.user.id, CategoryId: req.body.category })
 
             res.status(201).send({ message: 'Noticia creada con éxito', newN });
-
         } catch (err) {
-
             err
             next(err)
 
@@ -27,7 +25,7 @@ const NewController = {
 
             const news = await New.findAll({
 
-                include: { model: Category },
+                include: Category,
 
             });
 
