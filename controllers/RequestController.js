@@ -1,4 +1,4 @@
-const { Request } = require('../models/index')
+const { Request, User } = require('../models/index')
 
 const RequestController = {
 
@@ -12,6 +12,26 @@ const RequestController = {
             console.error(error)
             res.status(500).send({ message: 'Ha habido un problema al crear la petición' })
         }
+    },
+
+    async getAll(req, res) {
+
+        try {
+
+            const requests = await Request.findAll({
+
+                include: User,
+
+            });
+
+            res.send(requests);
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
     },
 }
 
