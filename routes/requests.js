@@ -6,5 +6,7 @@ const {authentication } = require('../middleware/authentication')
 
 
 router.post('/createRequest',uploadRequestImages.single('image'),authentication,RequestController.createRequest)
+router.get('/getAll',RequestController.getAll)
+
 
 module.exports = router; 
