@@ -1,4 +1,4 @@
-const { User, Post, Token } = require("../models/index.js");
+const { User, Request, Post, Token } = require("../models/index.js");
 const { Op } = require("sequelize")
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -67,7 +67,7 @@ const UserController = {
   getUsers(req, res) {
 
     User.findAll({
-      include: [Post],
+      include: [Request],
     })
 
       .then((users) => res.status(201).send({ message: "Usuarios obtenidos:", users }))

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class Request extends Model {
     static associate(models) {
       Request.belongsTo(models.User),
-      Request.belongsTo(models.Category,{
+      Request.belongsToMany(models.Category,{
         through:models.RequestCategory,
       }
 )
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     body: DataTypes.STRING,
     image: DataTypes.STRING,
-    adress: DataTypes.STRING,
+    address: DataTypes.STRING,
     UserId: DataTypes.INTEGER
   }, {
     sequelize,
