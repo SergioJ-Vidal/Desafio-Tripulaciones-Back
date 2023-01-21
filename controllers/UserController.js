@@ -18,7 +18,6 @@ const UserController = {
     }
   },
 
-
   login(req, res) {
 
     User.findOne({
@@ -38,7 +37,15 @@ const UserController = {
       Token.create({ token, UserId: user.id });
       res.send({ message: 'Bienvenid@ ' + user.name, user, token });
     })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({
+        message: "Ha habido un problema al logear",
+      });
+    });
   },
+
+  
 
   async logout(req, res) {
     try {
