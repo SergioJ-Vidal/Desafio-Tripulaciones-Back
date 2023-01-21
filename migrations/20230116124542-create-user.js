@@ -21,9 +21,9 @@ module.exports = {
       email: {
         type: Sequelize.STRING
       },
-      address:{
+      address: {
         type: Sequelize.STRING
-      } ,
+      },
       codephone: {
         type: Sequelize.INTEGER
       },
