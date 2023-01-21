@@ -15,7 +15,7 @@ const RequestController = {
     },
 }
 
-if (req.file) req.body.image = req.file.filename
 
 
-module.exports = RequestController
+
+module.exports = RequestController  
