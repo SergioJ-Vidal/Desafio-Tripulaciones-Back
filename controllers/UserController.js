@@ -13,8 +13,9 @@ const UserController = {
       const user = await User.create({ ...req.body, password: hash, role: "user" })
       res.status(201).send({ message: 'Usuario creado con éxito', user });
     } catch (err) {
-      err
+      
       next(err)
+      
     }
   },
 
