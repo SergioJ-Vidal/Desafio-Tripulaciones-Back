@@ -6,6 +6,7 @@ const {authentication, isAdmin} = require('../middleware/authentication')
 
 
 router.post('/createNew', authentication, uploadNewsImages.single('image'), NewController.create)
-// router.get('/getAll',NewController.getAll)
+router.delete('/deleteNew/:id', authentication, NewController.deleteNew)
+router.get('/getAll',NewController.getAll)
 
 module.exports = router;
