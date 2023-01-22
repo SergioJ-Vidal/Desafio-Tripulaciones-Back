@@ -108,7 +108,7 @@ module.exports = {
       },
       image: {
         type: Sequelize.STRING
-      },
+      }, 
       role: {
         type: Sequelize.STRING
       },
