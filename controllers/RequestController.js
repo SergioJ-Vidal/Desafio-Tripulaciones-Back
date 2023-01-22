@@ -8,6 +8,8 @@ const RequestController = {
 
         try {
             const newN = await Request.create({ ...req.body, UserId: req.user.id })
+            newN.addCategory(req.body.CategoryId)
+     
             res.status(201).send({ message: 'Petición creada con éxito', newN });
             
         } catch (error) {
