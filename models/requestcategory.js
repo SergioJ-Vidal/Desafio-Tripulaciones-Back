@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class RequestCategory extends Model {
    
     static associate(models) {
-      // define association here
+    
     }
   }
   RequestCategory.init({

@@ -10,10 +10,30 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'El campo de título no puede estar vacío'
+          },
+          len: {
+            args: [3, 40],
+            msg: 'El nombre debe contener entre 3 y 800 letras'
+          }
+        }
       },
       body: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'El campo de cuerpo no puede estar vacío'
+          },
+          len: {
+            args: [3, 800],
+            msg: 'El cuerpo debe contener entre 3 y 800 letras'
+          }
+        }
       },
       image: {
         type: Sequelize.STRING
