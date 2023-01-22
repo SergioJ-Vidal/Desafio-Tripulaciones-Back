@@ -16,9 +16,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       birthdate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       email: {
+        type: Sequelize.STRING
+      },
+      address: {
         type: Sequelize.STRING
       },
       codephone: {

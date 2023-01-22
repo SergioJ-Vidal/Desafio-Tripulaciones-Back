@@ -1,11 +1,11 @@
-const { User, Post, Token } = require("../models/index.js");
+const { User, Request, Post, Token } = require("../models/index.js");
 const { Op } = require("sequelize")
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development']
 
 const UserController = {
-  
+
   async create(req, res, next) {
     if (req.file) req.body.image = req.file.filename
     try {
@@ -17,7 +17,6 @@ const UserController = {
       next(err)
     }
   },
-
 
   login(req, res) {
 
@@ -38,7 +37,15 @@ const UserController = {
       Token.create({ token, UserId: user.id });
       res.send({ message: 'Bienvenid@ ' + user.name, user, token });
     })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send({
+          message: "Ha habido un problema al logear",
+        });
+      });
   },
+
+
 
   async logout(req, res) {
     try {
@@ -60,7 +67,7 @@ const UserController = {
   getUsers(req, res) {
 
     User.findAll({
-      include: [Post],
+      include: [Request],
     })
 
       .then((users) => res.status(201).send({ message: "Usuarios obtenidos:", users }))

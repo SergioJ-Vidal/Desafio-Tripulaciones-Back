@@ -4,7 +4,7 @@ const { Op } = Sequelize;
 const PostController = {
 
   createPost(req, res) {
-    Post.create(req.body)
+    Post.create({ ...req.body, UserId: req.user.id })
       .then((post) =>
         res.status(201).send({ message: "Publicación creada con éxito", post })
       )
@@ -49,40 +49,40 @@ const PostController = {
         include: [User],
       });
       res.send(post);
-    } catch (error) {}
+    } catch (error) { }
   },
 
-  async deletePost(req,res) {
+  async deletePost(req, res) {
     try {
       await Post.destroy({
-        where:{
-          id:req.params.id,
+        where: {
+          id: req.params.id,
         },
       });
-      res.send({msg:"Publicacion eliminada con exito"})
+      res.send({ msg: "Publicacion eliminada con exito" })
     } catch (error) {
       console.error(err)
       res
         .status(500)
-        .send({msg:"Hubo un problema al eliminar el post", err})
+        .send({ msg: "Hubo un problema al eliminar el post", err })
     }
   },
-  async updatePostById(req,res){
+  async updatePostById(req, res) {
     try {
-      await Post.update({title:req.body.title, content:req.body.content},
+      await Post.update({ title: req.body.title, content: req.body.content },
         {
-        where:{
-          id:req.params.id
-        },
-      })
-        res.send({msg:"Post actualizado con exito"})
-        }catch (error){
-            console.error(err)
-            res
-            .status(500)
-            .send({msg:"No se pudo actualizar el post", err})
-        }
-      },
+          where: {
+            id: req.params.id
+          },
+        })
+      res.send({ msg: "Post actualizado con exito" })
+    } catch (error) {
+      console.error(err)
+      res
+        .status(500)
+        .send({ msg: "No se pudo actualizar el post", err })
+    }
+  },
 
 };
 module.exports = PostController;
