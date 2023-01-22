@@ -19,12 +19,10 @@ const UserController = {
   },
 
   login(req, res) {
-
     User.findOne({
       where: {
         email: req.body.email
       }
-
     }).then(user => {
       if (!user) {
         return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
@@ -45,8 +43,6 @@ const UserController = {
       });
   },
 
-
-
   async logout(req, res) {
     try {
       await Token.destroy({
@@ -65,11 +61,9 @@ const UserController = {
   },
 
   getUsers(req, res) {
-
     User.findAll({
       include: [Request],
     })
-
       .then((users) => res.status(201).send({ message: "Usuarios obtenidos:", users }))
       .catch((err) => {
         console.log(err);
@@ -81,21 +75,15 @@ const UserController = {
 
   async getUserById(req, res) {
     try {
-
       const user = await User.findByPk(req.params.id, {
         // include: [Post]
-
       });
-
       res.send(user);
-
     } catch (error) {
-
       console.error(error);
       res.status(500).send({
         msg: "Ha habido un problema al traernos user por Id",
         error
-
       });
     }
   },
