@@ -11,7 +11,6 @@ const CategoryController = {
             console.error(error)
             res.status(500).send({ message: 'Ha habido un problema al crear la categoría' })
         }
-        
     },
 }
 
