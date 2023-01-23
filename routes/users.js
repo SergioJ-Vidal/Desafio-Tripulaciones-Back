@@ -10,7 +10,7 @@ router.post('/login',UserController.login)
 router.delete('/logout',authentication,UserController.logout)
 router.get('/getUserById/:id',UserController.getUserById)
 router.get('/getUserByName/:name',UserController.getUserByName)
-router.delete('/deleteUserById/:id',UserController.deleteUserById)
+router.delete('/deleteUserById/:id',isAdmin, authentication,UserController.deleteUserById)
 
 
 module.exports = router; 
