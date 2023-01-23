@@ -64,10 +64,24 @@ const ActivityController = {
                 { $push: { attendances: req.user._id } },
                 { new: true }
             );
-            res.send({ msg: "Asistencia confirmada", ActivityY });
+            res.send({ msg: "Te interesa el evento", ActivityY });
         } catch (error) {
             console.error(error);
-            res.status(500).send({ msg: "Error al confirmar la asistencia" });
+            res.status(500).send({ msg: "Error al confirmar el la asistencia" });
+        }
+    },
+
+    async absence(req, res) {
+        try {
+            const ActivityY = await Activity.findByIdAndUpdate(
+                req.params._id,
+                { $push: { absences: req.user._id } },
+                { new: true }
+            );
+            res.send({ msg: "No te interesa el evento", ActivityY });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ msg: "Error al negar la asistencia" });
         }
     },
 };

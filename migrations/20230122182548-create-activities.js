@@ -27,6 +27,9 @@ module.exports = {
       attendances: {
         type: Sequelize.BOOLEAN
       },
+      absences: {
+        type: Sequelize.BOOLEAN
+      },
       UserId: {
         type: Sequelize.STRING
       },
