@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       date: DataTypes.DATEONLY,
       attendances: DataTypes.INTEGER,
       absences: DataTypes.INTEGER,
+      helps: DataTypes.INTEGER,
       UserId: DataTypes.STRING
     },
     {

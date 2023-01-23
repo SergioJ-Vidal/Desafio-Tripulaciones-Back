@@ -101,6 +101,52 @@ const ActivityController = {
         
     }
 },
+    async attendance(req, res) {
+        try {
+            const ActivityY = await Activity.update(
+                {
+                    where: {
+                        id: req.params.id
+                    },
+                },
+                { $push: { attendances: req.user.id } },
+                { new: true }
+            );
+            res.send({ msg: "Te interesa el evento", ActivityY });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ msg: "Error al confirmar la asistencia" });
+        }
+    },
+
+    async absence(req, res) {
+        try {
+            const ActivityY = await Activity.update(
+                req.params.id,
+                { $push: { absences: req.user.id } },
+                { new: true }
+            );
+            res.send({ msg: "No te interesa el evento", ActivityY });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ msg: "Error al negar la asistencia" });
+        }
+    },
+
+    async help(req, res) {
+        try {
+            const ActivityY = await Activity.update(
+                req.params.id,
+                { $push: { helps: req.user.id } },
+                { new: true }
+            );
+            res.send({ msg: "Quieres ayudar en el evento", ActivityY });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ msg: "Error al ayudar en el evento" });
+        }
+    },
+
 };
 
 module.exports = ActivityController;

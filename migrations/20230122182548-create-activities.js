@@ -30,6 +30,9 @@ module.exports = {
       absences: {
         type: Sequelize.INTEGER
       },
+      helps: {
+        type: Sequelize.INTEGER
+      },
       UserId: {
         type: Sequelize.STRING
       },
