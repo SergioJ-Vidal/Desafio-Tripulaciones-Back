@@ -1,5 +1,4 @@
 const { New, Category, Sequelize, } = require("../models/index");
-const { Op } = Sequelize;
 
 const NewController = {
   async create(req, res) {
