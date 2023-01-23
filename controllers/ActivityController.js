@@ -1,4 +1,4 @@
-const { Activity } = require("../models/index");
+const { Activity, User } = require("../models/index");
 
 const ActivityController = {
     async create(req, res) {
@@ -42,7 +42,7 @@ const ActivityController = {
 
     async updateActivityById(req, res) {
         try {
-            await Activity.update({ title: req.body.title, body: req.body.body, image: req.body.image, date: req.body.date },
+            await Activity.update({ ...req.body },
                 {
                     where: {
                         id: req.params.id
@@ -59,23 +59,27 @@ const ActivityController = {
 
     async attendance(req, res) {
         try {
-            const ActivityY = await Activity.findByIdAndUpdate(
-                req.params._id,
-                { $push: { attendances: req.user._id } },
+            const ActivityY = await Activity.update(
+                {
+                    where: {
+                        id: req.params.id
+                    },
+                },
+                { $push: { attendances: req.user.id } },
                 { new: true }
             );
             res.send({ msg: "Te interesa el evento", ActivityY });
         } catch (error) {
             console.error(error);
-            res.status(500).send({ msg: "Error al confirmar el la asistencia" });
+            res.status(500).send({ msg: "Error al confirmar la asistencia" });
         }
     },
 
     async absence(req, res) {
         try {
             const ActivityY = await Activity.findByIdAndUpdate(
-                req.params._id,
-                { $push: { absences: req.user._id } },
+                req.params.id,
+                { $push: { absences: req.user.id } },
                 { new: true }
             );
             res.send({ msg: "No te interesa el evento", ActivityY });
