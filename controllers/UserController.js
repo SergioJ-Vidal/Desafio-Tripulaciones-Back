@@ -13,8 +13,9 @@ const UserController = {
       const user = await User.create({ ...req.body, password: hash, role: "user" })
       res.status(201).send({ msg: 'Usuario creado con éxito', user });
     } catch (err) {
-      err
+
       next(err)
+
     }
   },
 
@@ -22,28 +23,31 @@ const UserController = {
     try {
       const user = await User.findOne({
         where: {
-          email: req.body.email,
+          email: req.body.email
+        }})
+        if (!user) {
+          return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
         }
-      });
-      if (!user) {
-        return res.status(400).send({ msg: "Usuario o contraseña incorrectos" });
-      }
-      const isMatch = await bcrypt.compare(req.body.password, user.password);
-      if (!isMatch) {
-        return res.status(400).send({ msg: "Usuario o contraseña incorrectos" });
-      }
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-      if (user.tokens.length > 4) user.tokens.shift();
-      user.tokens.push(token);
-      await user.save();
-      res.send({ msg: 'Bienvenid@ ' + user.name, token, user });
+        const isMatch = bcrypt.compareSync(req.body.password, user.password);
+        if (!isMatch) {
+          return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
+        }
+        const token = jwt.sign({ id: user.id }, jwt_secret);
+        Token.create({ token, UserId: user.id });
+        res.send({ message: 'Bienvenid@ ' + user.name, user, token });
+
     } catch (error) {
-      console.error(error);
-      res.status(500).send({
-        msg: "Ha habido un problema al logear",
-      })
+
+      console.log(error);
+        res.status(500).send({
+          message: "Ha habido un problema al logear",
+        });
+
     }
+
   },
+
+
 
   async logout(req, res) {
     try {
