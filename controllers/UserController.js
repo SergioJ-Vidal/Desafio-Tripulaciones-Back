@@ -103,8 +103,8 @@ const UserController = {
 
       const user = await User.findByPk(req.params.id, {
         include: [
-          // { model: New },
-          // { model: Post },
+          { model: New },
+          { model: Post },
           { model: Request },
           { model: Activity },
         ],
