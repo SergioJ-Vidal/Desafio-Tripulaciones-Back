@@ -42,13 +42,8 @@ const UserController = {
         res.status(500).send({
           message: "Ha habido un problema al logear",
         });
-
     }
-
   },
-
-
-
   async logout(req, res) {
     try {
       await Token.destroy({
