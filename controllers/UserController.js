@@ -21,7 +21,9 @@ const UserController = {
   async login(req, res) {
     try {
       const user = await User.findOne({
-        email: req.body.email,
+        where: {
+          email: req.body.email,
+        }
       });
       if (!user) {
         return res.status(400).send({ msg: "Usuario o contraseña incorrectos" });
