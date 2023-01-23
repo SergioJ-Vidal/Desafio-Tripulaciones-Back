@@ -77,6 +77,7 @@ const PostController = {
       res.status(500).send({ msg: "Hubo un problema al eliminar el post", error})
     }
   },
+  
   async updatePostById(req, res) {
     try {
       await Post.update({ title: req.body.title, content: req.body.content },

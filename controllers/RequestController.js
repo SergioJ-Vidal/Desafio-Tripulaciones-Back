@@ -1,6 +1,7 @@
 const { Request, User, Category } = require("../models/index");
 
 const RequestController = {
+
   async createRequest(req, res) {
 
     if (req.file) req.body.image = req.file.filename;
@@ -16,6 +17,35 @@ const RequestController = {
       console.error(error);
       res.status(500).send({ msg: "Ha habido un problema al crear la petición" });
 
+    }
+  },
+
+  async updateRequestById(req, res) {
+    try {
+      await Request.update({ ...req.body },
+        {
+          where: {
+            id: req.params.id
+          },
+        })
+      res.send({ msg: "Petición actualizado con exito" })
+    } catch (error) {
+      console.error(err)
+      res.status(500).send({ msg: "No se pudo actualizar la petición", error})
+    }
+  },
+
+  async deleteRequest(req, res) {
+    try {
+      await Request.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.send({ msg: "Petición eliminada con exito" })
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({ msg: "Hubo un problema al eliminar la petición", error})
     }
   },
 

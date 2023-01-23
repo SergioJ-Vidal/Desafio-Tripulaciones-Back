@@ -7,7 +7,7 @@ router.post('/createPost/:id', authentication, PostController.createPost)
 router.get('/getAll',PostController.getAll)
 router.get('/getPostById/:id',PostController.getPostById)
 router.get('/getPostByName/:title',PostController.getPostByName)
-router.delete('/deletePost/:id',PostController.deletePost)
-router.put('/updatePostById/:id',PostController.updatePostById)
+router.delete('/deletePost/:id', authentication,PostController.deletePost)
+router.put('/updatePostById/:id', authentication,PostController.updatePostById)
 
 module.exports = router;

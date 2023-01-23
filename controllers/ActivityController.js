@@ -5,7 +5,8 @@ const ActivityController = {
   async create(req, res) {
 
     try {
-      const ActivityY = await Activity.create({ ...req.body, UserId: req.user.id });
+      const ActivityY = await Activity.create({ ...req.body, UserId: req.user.id})
+
       res
         .status(201)
         .send({ message: "Actividad creada con éxito", ActivityY });
@@ -73,7 +74,33 @@ const ActivityController = {
         .send({ msg: "No se pudo actualizar la actividad", err })
     }
 
-  }
+  },
+
+  async attendance(req, res) {
+
+    try {
+
+        const ActivityY = await Activity.update(
+            {
+                where: {
+                    id: req.params.id
+                },
+            },
+            { $push: { attendances: req.user.id } },
+            { new: true }
+        );
+
+        // await ActivityY.save();
+
+        res.send({ msg: "Te interesa el evento", ActivityY });
+
+    } catch (error) {
+
+        console.error(error);
+        res.status(500).send({ msg: "Error al confirmar la asistencia" });
+        
+    }
+},
 };
 
 module.exports = ActivityController;

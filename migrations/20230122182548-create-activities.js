@@ -25,10 +25,10 @@ module.exports = {
         type: Sequelize.DATEONLY
       },
       attendances: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.INTEGER
       },
       absences: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.INTEGER
       },
       UserId: {
         type: Sequelize.STRING
