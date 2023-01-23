@@ -64,18 +64,12 @@ module.exports = {
           }
         }
       },
+      address: {
+        type: Sequelize.STRING,
+      },
       codephone: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: 'El campo de código es requerido'
-          },
-          len: {
-            args: [2, 3],
-            msg: 'Debe contener entre 2 y 3 carácteres'
-          }
-        }
+        allowNull: false
       },
       telephone: {
         type: Sequelize.INTEGER,
