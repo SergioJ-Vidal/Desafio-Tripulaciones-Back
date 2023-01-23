@@ -48,7 +48,7 @@ const ActivityController = {
                         id: req.params.id
                     },
                 })
-            res.send({ msg: "Actividad actualizada con exito" })
+            res.send({ msg: "Actividad actualizada con exito", User })
         } catch (error) {
             console.error(error)
             res
@@ -60,13 +60,14 @@ const ActivityController = {
     async attendance(req, res) {
         try {
             const ActivityY = await Activity.update(
+              { $push: { attendances: req.params.id } },
+              { new: true },
                 {
                     where: {
                         id: req.params.id
                     },
                 },
-                { $push: { attendances: req.user.id } },
-                { new: true }
+               
             );
             res.send({ msg: "Te interesa el evento", ActivityY });
         } catch (error) {
