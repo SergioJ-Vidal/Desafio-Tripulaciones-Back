@@ -18,29 +18,29 @@ const UserController = {
     }
   },
 
-  login(req, res) {
-    User.findOne({
-      where: {
-        email: req.body.email
-      }
-    }).then(user => {
-      if (!user) {
-        return res.status(400).send({ msg: "Usuario o contraseña incorrectos" })
-      }
-      const isMatch = bcrypt.compareSync(req.body.password, user.password);
-      if (!isMatch) {
-        return res.status(400).send({ msg: "Usuario o contraseña incorrectos" })
-      }
-      const token = jwt.sign({ id: user.id }, jwt_secret);
-      Token.create({ token, UserId: user.id });
-      res.send({ msg: 'Bienvenid@ ' + user.name, user, token });
-    })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).send({
-          msg: "Ha habido un problema al logear",
-        });
+  async login(req, res) {
+    try {
+      const user = await User.findOne({
+        email: req.body.email,
       });
+      if (!user) {
+        return res.status(400).send({ msg: "Usuario o contraseña incorrectos" });
+      }
+      const isMatch = await bcrypt.compare(req.body.password, user.password);
+      if (!isMatch) {
+        return res.status(400).send({ msg: "Usuario o contraseña incorrectos" });
+      }
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+      if (user.tokens.length > 4) user.tokens.shift();
+      user.tokens.push(token);
+      await user.save();
+      res.send({ msg: 'Bienvenid@ ' + user.name, token, user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        msg: "Ha habido un problema al logear",
+      })
+    }
   },
 
   async logout(req, res) {
@@ -60,17 +60,18 @@ const UserController = {
     }
   },
 
-  getUsers(req, res) {
-    User.findAll({
-      include: [Request],
-    })
-      .then((users) => res.status(201).send({ msg: "Usuarios obtenidos:", users }))
-      .catch((err) => {
-        console.log(err);
-        res.status(500).send({
-          msg: "Ha habido un problema al cargar los usuarios",
-        });
-      });
+  async getUsers(req, res) {
+    try {
+      const users = await User.find({
+        include: [
+          { model: Request },
+        ]
+      })
+      res.send({ msg: "Usuarios obtenidos:", users });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ msg: "Error al cargar los usuarios" })
+    }
   },
 
   async getUserById(req, res) {
@@ -104,6 +105,7 @@ const UserController = {
       });
     }
   },
+
   async deleteUserById(req, res) {
     await User.destroy({
       where: {
@@ -118,6 +120,6 @@ const UserController = {
     res.send("El usuario fue eliminado con exito");
   },
 
-};
+}
 
 module.exports = UserController;
