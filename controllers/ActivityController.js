@@ -77,7 +77,7 @@ const ActivityController = {
 
     async absence(req, res) {
         try {
-            const ActivityY = await Activity.findByIdAndUpdate(
+            const ActivityY = await Activity.update(
                 req.params.id,
                 { $push: { absences: req.user.id } },
                 { new: true }
@@ -88,6 +88,21 @@ const ActivityController = {
             res.status(500).send({ msg: "Error al negar la asistencia" });
         }
     },
+
+    async help(req, res) {
+        try {
+            const ActivityY = await Activity.update(
+                req.params.id,
+                { $push: { helps: req.user.id } },
+                { new: true }
+            );
+            res.send({ msg: "Quieres ayudar en el evento", ActivityY });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ msg: "Error al ayudar en el evento" });
+        }
+    },
+
 };
 
 module.exports = ActivityController;

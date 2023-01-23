@@ -13,8 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       image: DataTypes.STRING,
       address: DataTypes.STRING,
       date: DataTypes.DATEONLY,
-      attendances: DataTypes.BOOLEAN,
-      absences: DataTypes.BOOLEAN,
+      attendances: DataTypes.INTEGER,
+      absences: DataTypes.INTEGER,
+      helps: DataTypes.INTEGER,
       UserId: DataTypes.STRING
     },
     {
