@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       image: DataTypes.STRING,
       address: DataTypes.STRING,
       date: DataTypes.DATEONLY,
+      attendances: DataTypes.BOOLEAN,
+      absences: DataTypes.BOOLEAN,
       UserId: DataTypes.STRING
     },
     {

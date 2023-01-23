@@ -1,4 +1,4 @@
-const { Activity } = require("../models/index");
+const { Activity, User } = require("../models/index");
 
 const ActivityController = {
 
