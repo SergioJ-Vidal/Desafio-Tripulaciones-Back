@@ -11,7 +11,7 @@ const UserController = {
     try {
       const hash = bcrypt.hashSync(req.body.password, 10);
       const user = await User.create({ ...req.body, password: hash, role: "user" })
-      res.status(201).send({ message: 'Usuario creado con éxito', user });
+      res.status(201).send({ msg: 'Usuario creado con éxito', user });
     } catch (err) {
 
       next(err)
@@ -59,45 +59,38 @@ const UserController = {
           ]
         }
       });
-      res.send({ message: 'Desconectado con éxito' })
+      res.send({ msg: 'Desconectado con éxito' })
     } catch (error) {
       console.log(error)
-      res.status(500).send({ message: 'Hubo un problema al tratar de desconectarte' })
+      res.status(500).send({ msg: 'Hubo un problema al tratar de desconectarte' })
     }
   },
 
-  getUsers(req, res) {
-
-    User.findAll({
-      include: [Request],
-    })
-
-      .then((users) => res.status(201).send({ message: "Usuarios obtenidos:", users }))
-      .catch((err) => {
-        console.log(err);
-        res.status(500).send({
-          message: "Ha habido un problema al cargar los usuarios",
-        });
-      });
+  async getUsers(req, res) {
+    try {
+      const users = await User.find({
+        include: [
+          { model: Request },
+        ]
+      })
+      res.send({ msg: "Usuarios obtenidos:", users });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ msg: "Error al cargar los usuarios" })
+    }
   },
 
   async getUserById(req, res) {
     try {
-
       const user = await User.findByPk(req.params.id, {
         // include: [Post]
-
       });
-
       res.send(user);
-
     } catch (error) {
-
       console.error(error);
       res.status(500).send({
         msg: "Ha habido un problema al traernos user por Id",
         error
-
       });
     }
   },
@@ -118,6 +111,7 @@ const UserController = {
       });
     }
   },
+
   async deleteUserById(req, res) {
     await User.destroy({
       where: {
@@ -132,6 +126,6 @@ const UserController = {
     res.send("El usuario fue eliminado con exito");
   },
 
-};
+}
 
 module.exports = UserController;

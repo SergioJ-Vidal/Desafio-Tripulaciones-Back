@@ -5,10 +5,10 @@ module.exports = (sequelize, DataTypes) => {
   class Request extends Model {
     static associate(models) {
       Request.belongsTo(models.User),
-      Request.belongsToMany(models.Category,{
-        through:models.RequestCategory,
-      }
-)
+        Request.belongsToMany(models.Category, {
+          through: models.RequestCategory,
+        }
+        )
     }
   }
   Request.init({

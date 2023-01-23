@@ -28,5 +28,6 @@ app.use("/posts", require("./routes/posts"))
 app.use("/news", require("./routes/news"))
 app.use("/categories", require("./routes/categories"))
 app.use("/requests", require("./routes/requests"))
+app.use("/activities", require("./routes/activities"))
 
 app.listen(PORT, ()=>console.log(`servidor levantado en el puerto ${PORT}`))
