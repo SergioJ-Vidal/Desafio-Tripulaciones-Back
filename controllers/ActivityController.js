@@ -5,6 +5,7 @@ const ActivityController = {
   async create(req, res) {
 
     try {
+
       const ActivityY = await Activity.create({ ...req.body, UserId: req.user.id})
 
       res
@@ -34,6 +35,7 @@ const ActivityController = {
       res.send({ msg: "Actividad eliminada con exito" });
 
     } catch (error) {
+
       console.error(err);
       res
         .status(500)
@@ -47,8 +49,11 @@ const ActivityController = {
 
       const ActivityY = await Activity.findAll({});
       res.send(ActivityY);
+
     } catch (error) {
+
       console.error(error);
+
     }
 
   },
@@ -102,7 +107,9 @@ const ActivityController = {
     }
 },
     async attendance(req, res) {
+
         try {
+
             const ActivityY = await Activity.update(
               { $push: { attendances: req.params.id } },
               { new: true },
@@ -113,38 +120,54 @@ const ActivityController = {
                 },
                
             );
-            res.send({ msg: "Te interesa el evento", ActivityY });
+
+            res.send({ msg: "Te interesa el evento", ActivityY })
+
         } catch (error) {
+
             console.error(error);
-            res.status(500).send({ msg: "Error al confirmar la asistencia" });
+            res.status(500).send({ msg: "Error al confirmar la asistencia" })
+
         }
     },
 
     async absence(req, res) {
+
         try {
+
             const ActivityY = await Activity.update(
                 req.params.id,
                 { $push: { absences: req.user.id } },
                 { new: true }
             );
+
             res.send({ msg: "No te interesa el evento", ActivityY });
+
         } catch (error) {
+
             console.error(error);
             res.status(500).send({ msg: "Error al negar la asistencia" });
+
         }
     },
 
     async help(req, res) {
+
         try {
+
             const ActivityY = await Activity.update(
                 req.params.id,
                 { $push: { helps: req.user.id } },
                 { new: true }
             );
+
             res.send({ msg: "Quieres ayudar en el evento", ActivityY });
+
         } catch (error) {
+
             console.error(error);
             res.status(500).send({ msg: "Error al ayudar en el evento" });
+
         }
     },
 
