@@ -3,25 +3,28 @@ const { Op } = Sequelize;
 
 const PostController = {
 
-  createPost(req, res) {
-    Post.create({...req.body, UserId: req.user.id})
-      .then((post) =>
-        res.status(201).send({ message: "Publicación creada con éxito", post })
-      )
-      .catch(console.error);
+  async createPost(req, res) {
+    try {
+      const PostN = await Post.create({ ...req.body, UserId: req.user.id });
+      res.status(201).send({ message: 'Comentario creado con éxito', PostN });
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({ message: 'Ha habido un problema al crear el comentario' })
+    }
   },
 
-  getAll(req, res) {
-    Post.findAll({
-      include: [User],
-    })
-      .then((posts) => res.send(posts))
-      .catch((err) => {
-        console.log(err); res.status(500)
-          .send({
-            message: "Ha habido un problema al cargar las publicaciones",
-          });
+  async getAll(req, res) {
+    try {
+      const posts = await Post.findAll({
+        include: [
+          { model: User },
+        ]
       });
+      res.send(posts);
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({ message: 'Ha habido un problema al cargar los comentarios' })
+    }
   },
 
   async getPostById(req, res) {
@@ -32,13 +35,10 @@ const PostController = {
       res.send(post);
     } catch (error) {
       console.error(error);
-      res.status(500).send({
-        msg: "Ha habido un problema al traernos post por Id",
-        error,
-      });
+      res.status(500).send({msg: "Ha habido un problema al traernos el comentario por Id",
+      error,});
     }
   },
-
 
   async getPostByName(req, res) {
     try {
@@ -63,10 +63,8 @@ const PostController = {
       });
       res.send({ msg: "Publicacion eliminada con exito" })
     } catch (error) {
-      console.error(err)
-      res
-        .status(500)
-        .send({ msg: "Hubo un problema al eliminar el post", err })
+      console.error(error)
+      res.status(500).send({ msg: "Hubo un problema al eliminar el post", error})
     }
   },
   async updatePostById(req, res) {
@@ -80,9 +78,7 @@ const PostController = {
       res.send({ msg: "Post actualizado con exito" })
     } catch (error) {
       console.error(err)
-      res
-        .status(500)
-        .send({ msg: "No se pudo actualizar el post", err })
+      res.status(500).send({ msg: "No se pudo actualizar el post", error})
     }
   },
 };

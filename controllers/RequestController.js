@@ -6,13 +6,10 @@ const RequestController = {
     try {
       const newN = await Request.create({ ...req.body, UserId: req.user.id });
       newN.addCategory(req.body.CategoryId);
-
       res.status(201).send({ message: "Petición creada con éxito", newN });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Ha habido un problema al crear la petición" });
+      res.status(500).send({ message: "Ha habido un problema al crear la petición" });
     }
   },
 
@@ -27,6 +24,7 @@ const RequestController = {
       res.send(requests);
     } catch (error) {
       console.error(error);
+      res.status(500).send({ message: 'Ha habido un problema al cargar las peticiones' })
     }
   },
 }
