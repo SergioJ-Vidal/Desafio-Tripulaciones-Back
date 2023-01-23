@@ -4,26 +4,36 @@ const { Op } = Sequelize;
 const PostController = {
 
   async createPost(req, res) {
+
     try {
-      const PostN = await Post.create({ ...req.body, UserId: req.user.id });
+
+      const PostN = await Post.create({ ...req.body, UserId: req.user.id, NewId: req.params.id });
       res.status(201).send({ msg: 'Comentario creado con éxito', PostN });
+
     } catch (error) {
+
       console.error(error)
       res.status(500).send({ msg: 'Ha habido un problema al crear el comentario' })
+
     }
   },
 
   async getAll(req, res) {
+
     try {
+
       const posts = await Post.findAll({
         include: [
           { model: User },
         ]
       });
       res.send(posts);
+
     } catch (error) {
+
       console.error(error)
       res.status(500).send({ msg: 'Ha habido un problema al cargar los comentarios' })
+      
     }
   },
 
