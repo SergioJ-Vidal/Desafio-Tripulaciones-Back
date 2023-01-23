@@ -1,4 +1,4 @@
-const { New, Category, Sequelize, } = require("../models/index");
+const { New, Post, Category, User } = require("../models/index");
 
 const NewController = {
   async create(req, res) {
@@ -17,26 +17,33 @@ const NewController = {
   },
 
   async getAll(req, res) {
+
     try {
+
       const news = await New.findAll({
+        include: [{ model: Post, include: [User] }],
+
       });
       res.send(news);
+
     } catch (error) {
+
       console.error(error);
+
     }
   },
 
-  async deleteNew(req,res) {
+  async deleteNew(req, res) {
     try {
       await New.destroy({
-        where:{
-          id:req.params.id,
+        where: {
+          id: req.params.id,
         },
       });
-      res.send({msg:"Noticia eliminada con exito"})
+      res.send({ msg: "Noticia eliminada con exito" })
     } catch (error) {
       console.error(err)
-      res.status(500).send({msg:"Hubo un problema al eliminar la noticia", err})
+      res.status(500).send({ msg: "Hubo un problema al eliminar la noticia", err })
     }
   },
 };
