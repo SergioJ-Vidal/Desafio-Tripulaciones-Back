@@ -42,7 +42,7 @@ const UserController = {
       })
     }
   },
-
+  
   async logout(req, res) {
     try {
       await Token.destroy({
