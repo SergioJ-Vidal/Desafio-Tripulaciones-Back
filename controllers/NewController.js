@@ -10,7 +10,7 @@ const NewController = {
         UserId: req.user.id,
         CategoryId: req.body.category,
       });
-      res.status(201).send({ message: "Noticia creada con éxito", newN });
+      res.status(201).send({ msg: "Noticia creada con éxito", newN });
     } catch (err) {
       err;
       next(err);
@@ -37,9 +37,7 @@ const NewController = {
       res.send({msg:"Noticia eliminada con exito"})
     } catch (error) {
       console.error(err)
-      res
-        .status(500)
-        .send({msg:"Hubo un problema al eliminar la noticia", err})
+      res.status(500).send({msg:"Hubo un problema al eliminar la noticia", err})
     }
   },
 };

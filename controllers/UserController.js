@@ -11,7 +11,7 @@ const UserController = {
     try {
       const hash = bcrypt.hashSync(req.body.password, 10);
       const user = await User.create({ ...req.body, password: hash, role: "user" })
-      res.status(201).send({ message: 'Usuario creado con éxito', user });
+      res.status(201).send({ msg: 'Usuario creado con éxito', user });
     } catch (err) {
       err
       next(err)
@@ -25,20 +25,20 @@ const UserController = {
       }
     }).then(user => {
       if (!user) {
-        return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
+        return res.status(400).send({ msg: "Usuario o contraseña incorrectos" })
       }
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
       if (!isMatch) {
-        return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
+        return res.status(400).send({ msg: "Usuario o contraseña incorrectos" })
       }
       const token = jwt.sign({ id: user.id }, jwt_secret);
       Token.create({ token, UserId: user.id });
-      res.send({ message: 'Bienvenid@ ' + user.name, user, token });
+      res.send({ msg: 'Bienvenid@ ' + user.name, user, token });
     })
       .catch((err) => {
         console.log(err);
         res.status(500).send({
-          message: "Ha habido un problema al logear",
+          msg: "Ha habido un problema al logear",
         });
       });
   },
@@ -53,10 +53,10 @@ const UserController = {
           ]
         }
       });
-      res.send({ message: 'Desconectado con éxito' })
+      res.send({ msg: 'Desconectado con éxito' })
     } catch (error) {
       console.log(error)
-      res.status(500).send({ message: 'Hubo un problema al tratar de desconectarte' })
+      res.status(500).send({ msg: 'Hubo un problema al tratar de desconectarte' })
     }
   },
 
@@ -64,11 +64,11 @@ const UserController = {
     User.findAll({
       include: [Request],
     })
-      .then((users) => res.status(201).send({ message: "Usuarios obtenidos:", users }))
+      .then((users) => res.status(201).send({ msg: "Usuarios obtenidos:", users }))
       .catch((err) => {
         console.log(err);
         res.status(500).send({
-          message: "Ha habido un problema al cargar los usuarios",
+          msg: "Ha habido un problema al cargar los usuarios",
         });
       });
   },

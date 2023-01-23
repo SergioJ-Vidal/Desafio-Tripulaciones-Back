@@ -6,10 +6,10 @@ const PostController = {
   async createPost(req, res) {
     try {
       const PostN = await Post.create({ ...req.body, UserId: req.user.id });
-      res.status(201).send({ message: 'Comentario creado con éxito', PostN });
+      res.status(201).send({ msg: 'Comentario creado con éxito', PostN });
     } catch (error) {
       console.error(error)
-      res.status(500).send({ message: 'Ha habido un problema al crear el comentario' })
+      res.status(500).send({ msg: 'Ha habido un problema al crear el comentario' })
     }
   },
 
@@ -23,7 +23,7 @@ const PostController = {
       res.send(posts);
     } catch (error) {
       console.error(error)
-      res.status(500).send({ message: 'Ha habido un problema al cargar los comentarios' })
+      res.status(500).send({ msg: 'Ha habido un problema al cargar los comentarios' })
     }
   },
 
