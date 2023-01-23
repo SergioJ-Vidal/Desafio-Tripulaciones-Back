@@ -6,11 +6,11 @@ const handleValidationError = (err, res) => {
 
         let chain = "";
 
-        // for (let i = 0; i < errors.length; i++) {
+        for (let i = 0; i < errors.length; i++) {
 
-        //     chain += errors[i] + " || ";
+            chain += errors[i] + " || ";
 
-        // }
+        }
 
         for (const element of errors) {
 

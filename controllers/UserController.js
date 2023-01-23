@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development']
 
 const UserController = {
-  
+
   async create(req, res, next) {
     if (req.file) req.body.image = req.file.filename
     try {
@@ -13,40 +13,41 @@ const UserController = {
       const user = await User.create({ ...req.body, password: hash, role: "user" })
       res.status(201).send({ message: 'Usuario creado con éxito', user });
     } catch (err) {
-      
+
       next(err)
-      
+
     }
   },
 
-  login(req, res) {
+  async login(req, res) {
+    try {
+      const user = await User.findOne({
+        where: {
+          email: req.body.email
+        }})
+        if (!user) {
+          return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
+        }
+        const isMatch = bcrypt.compareSync(req.body.password, user.password);
+        if (!isMatch) {
+          return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
+        }
+        const token = jwt.sign({ id: user.id }, jwt_secret);
+        Token.create({ token, UserId: user.id });
+        res.send({ message: 'Bienvenid@ ' + user.name, user, token });
 
-    User.findOne({
-      where: {
-        email: req.body.email
-      }
+    } catch (error) {
 
-    }).then(user => {
-      if (!user) {
-        return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
-      }
-      const isMatch = bcrypt.compareSync(req.body.password, user.password);
-      if (!isMatch) {
-        return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
-      }
-      const token = jwt.sign({ id: user.id }, jwt_secret);
-      Token.create({ token, UserId: user.id });
-      res.send({ message: 'Bienvenid@ ' + user.name, user, token });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send({
-        message: "Ha habido un problema al logear",
-      });
-    });
+      console.log(error);
+        res.status(500).send({
+          message: "Ha habido un problema al logear",
+        });
+
+    }
+
   },
 
-  
+
 
   async logout(req, res) {
     try {
