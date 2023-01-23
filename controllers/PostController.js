@@ -38,20 +38,26 @@ const PostController = {
   },
 
   async getPostById(req, res) {
+
     try {
+
       const post = await Post.findByPk(req.params.id, {
         include: [User],
       });
+
       res.send(post);
+
     } catch (error) {
+
       console.error(error);
-      res.status(500).send({msg: "Ha habido un problema al traernos el comentario por Id",
-      error,});
+      res.status(500).send({msg: "Ha habido un problema al traernos el comentario por Id", error});
     }
   },
 
   async getPostByName(req, res) {
+
     try {
+
       const post = await Post.findOne({
         where: {
           title: {
@@ -60,36 +66,55 @@ const PostController = {
         },
         include: [User],
       });
+
       res.send(post);
-    } catch (error) { }
+
+    } catch (error) { 
+
+      console.error(error)
+      res.status(500).send({ msg: "Hubo un problema al buscar el post", error})
+
+    }
   },
 
   async deletePost(req, res) {
+
     try {
+
       await Post.destroy({
         where: {
           id: req.params.id,
         },
       });
+
       res.send({ msg: "Publicacion eliminada con exito" })
+
     } catch (error) {
+
       console.error(error)
       res.status(500).send({ msg: "Hubo un problema al eliminar el post", error})
+
     }
   },
   
   async updatePostById(req, res) {
+
     try {
+
       await Post.update({ title: req.body.title, content: req.body.content },
         {
           where: {
             id: req.params.id
           },
         })
+
       res.send({ msg: "Post actualizado con exito" })
+
     } catch (error) {
+
       console.error(err)
       res.status(500).send({ msg: "No se pudo actualizar el post", error})
+
     }
   },
 };
