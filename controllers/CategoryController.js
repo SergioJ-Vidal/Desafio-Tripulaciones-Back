@@ -3,7 +3,6 @@ const { Category } = require('../models/index');
 const CategoryController = {
 
     async create(req, res) {
-
         try {
             const CategoryN = await Category.create({...req.body})
             res.status(201).send({ message: 'Categoría creada con éxito', CategoryN });

@@ -38,6 +38,8 @@ const PostController = {
       });
     }
   },
+
+
   async getPostByName(req, res) {
     try {
       const post = await Post.findOne({
@@ -83,6 +85,6 @@ const PostController = {
         .send({ msg: "No se pudo actualizar el post", err })
     }
   },
-
 };
+
 module.exports = PostController;

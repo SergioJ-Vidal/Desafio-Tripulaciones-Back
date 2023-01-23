@@ -3,7 +3,6 @@ const { Request, User, Category } = require("../models/index");
 const RequestController = {
   async createRequest(req, res) {
     if (req.file) req.body.image = req.file.filename;
-
     try {
       const newN = await Request.create({ ...req.body, UserId: req.user.id });
       newN.addCategory(req.body.CategoryId);
