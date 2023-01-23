@@ -8,7 +8,7 @@ const PostController = {
       .then((post) =>
         res.status(201).send({ message: "Publicación creada con éxito", post })
       )
-      .catch(console.error);
+      .catch(console.error); 
   },
 
   getAll(req, res) {
@@ -17,7 +17,7 @@ const PostController = {
     })
       .then((posts) => res.send(posts))
       .catch((err) => {
-        console.log(err); res.status(500)
+        console.log(err); res.status(500) 
           .send({
             message: "Ha habido un problema al cargar las publicaciones",
           });

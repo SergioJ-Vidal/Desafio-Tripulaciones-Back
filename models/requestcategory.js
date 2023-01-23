@@ -4,9 +4,8 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class RequestCategory extends Model {
-   
     static associate(models) {
-    
+      
     }
   }
   RequestCategory.init({
