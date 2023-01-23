@@ -21,7 +21,10 @@ const NewController = {
     try {
 
       const news = await New.findAll({
-        include: [{ model: Post, include: [User] }],
+        include: [
+          { model: User },
+          { model: Post, include: User, attributes: ["name", "surname", "image"] }
+        ],
 
       });
       res.send(news);
