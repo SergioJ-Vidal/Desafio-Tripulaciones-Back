@@ -1,4 +1,4 @@
-const { New, Post, Category, User } = require("../models/index");
+const { New, Post, User } = require("../models/index");
 
 const NewController = {
 
@@ -60,7 +60,7 @@ const NewController = {
 
       console.error(err)
       res.status(500).send({ msg: "Hubo un problema al eliminar la noticia", err })
-      
+
     }
   },
 
