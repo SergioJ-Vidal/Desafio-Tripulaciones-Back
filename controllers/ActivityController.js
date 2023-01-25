@@ -51,11 +51,27 @@ const ActivityController = {
       res.send(ActivityY);
 
     } catch (error) {
-
       console.error(error);
 
     }
 
+  },
+
+  async getActivityById(req, res) {
+
+    try {
+
+      const ActivityY = await Activity.findByPk(req.params.id, {
+        
+      });
+
+      res.send(ActivityY);
+
+    } catch (error) {
+
+      console.error(error);
+      res.status(500).send({msg: "Ha habido un problema al traernos la actividad por Id", error});
+    }
   },
 
   async updateActivityById(req, res) {
