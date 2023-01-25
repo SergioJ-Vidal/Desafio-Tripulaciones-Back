@@ -25,9 +25,7 @@ const NewController = {
   },
 
   async getAll(req, res) {
-
     try {
-
       const news = await New.findAll({
         include: [
           { model: User },
