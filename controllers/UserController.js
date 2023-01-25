@@ -81,41 +81,31 @@ const UserController = {
   },
 
   async updateUser(req, res) {
+
     if (req.file) req.body.image = req.file.filename
-    await User.update(
-      { ...req.body },
-      {
-        where: {
-          id: req.params.id,
+
+    try {
+
+      const user = await User.update(
+        { ...req.body },
+        {
+          where: {
+            id: req.params.id,
+          }
         },
-      }
-    );
-    res.send("Usuario updated successfully");
+      );
+
+      res.status(201).send({ msg: 'Usuario actualizado con éxito', user });
+
+    } catch (error) {
+
+      console.log(error)
+      res.status(500).send({ msg: 'Hubo un problema al tratar de actualizar el usuario' })
+
+    }
+
+
   },
-
-  // async updateUser(req, res) {
-
-  //   if (req.file) req.body.image = req.file.filename
-
-  //   try {
-
-  //     const userUpdated = await User.update(
-  //       { ...req.body },
-  //       {
-  //         where: {
-  //           id: req.params.id,
-  //         },
-  //       }
-  //     );
-  //     res.send("Usuario actualizado con éxito", userUpdated);
-  //   } catch (error) {
-
-  //     console.error(error);
-  //     res.status(500).send({ msg: "Error al actualizar el usuario" })
-
-  //   }
-
-  // },
 
   async getUsers(req, res) {
 

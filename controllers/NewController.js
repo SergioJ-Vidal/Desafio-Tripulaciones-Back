@@ -31,7 +31,7 @@ const NewController = {
       const news = await New.findAll({
         include: [
           { model: User },
-          { model: Post, include: User, attributes: ["name", "surname", "image"] }
+          // { model: Post, include: User, attributes: ["name", "surname", "image"] }
         ],
 
       });

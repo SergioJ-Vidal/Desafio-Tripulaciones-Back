@@ -5,7 +5,7 @@ const RequestController = require('../controllers/RequestController')
 const { authentication, isAdmin } = require('../middleware/authentication')
 
 
-router.post('/createRequest', uploadRequestImages.single('image'), authentication, RequestController.createRequest)
+router.post('/createRequest/:id', uploadRequestImages.single('image'), authentication, RequestController.createRequest)
 router.get('/getAll', RequestController.getAll)
 router.delete('/deleteRequest/:id', authentication, RequestController.deleteRequest)
 router.put('/updateRequestById/:id', authentication,RequestController.updateRequestById)
