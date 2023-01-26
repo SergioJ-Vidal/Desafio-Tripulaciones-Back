@@ -25,9 +25,7 @@ const NewController = {
   },
 
   async getAll(req, res) {
-
     try {
-
       const news = await New.findAll({
         include: [
           { model: User },
@@ -61,6 +59,21 @@ const NewController = {
       console.error(err)
       res.status(500).send({ msg: "Hubo un problema al eliminar la noticia", err })
 
+    }
+  },
+
+  async updateNew(req, res) {
+    try {
+      await New.update({ ...req.body },
+        {
+          where: {
+            id: req.params.id
+          },
+        })
+      res.send({ msg: "Noticia actualizada con exito" })
+    } catch (error) {
+      console.error(err)
+      res.status(500).send({ msg: "No se pudo actualizar la noticia", error})
     }
   },
 };
