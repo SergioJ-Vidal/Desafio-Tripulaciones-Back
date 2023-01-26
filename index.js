@@ -23,6 +23,7 @@ app.use(express.json())
 app.use(cors())
 app.use(typeError)
 
+app.use('/images' ,express.static("./images"));
 app.use("/users", require("./routes/users"))
 app.use("/posts", require("./routes/posts"))
 app.use("/news", require("./routes/news"))
